@@ -1,0 +1,34 @@
+# requirements.txt
+
+# For Twitter API interactions
+tweepy==4.10.0
+
+# For OpenAI GPT interactions
+openai==0.20.0
+
+# For data processing and analysis
+pandas==1.4.2
+
+# For making HTTP requests
+requests==2.28.1
+
+# For Discord bot functionality
+discord.py==1.7.3
+
+# For interacting with Google Sheets
+gspread==5.3.2
+oauth2client==4.1.3
+
+# Suggested packages based on project needs and comments
+
+# For advanced data processing and analysis (if needed)
+numpy==1.23.1  # For numerical operations
+scipy==1.8.1   # For scientific computing and technical computing
+scikit-learn==1.1.1  # For machine learning tasks
+
+# For additional natural language processing tasks
+nltk==3.7  # For natural language processing
+
+# For data visualization (if needed)
+matplotlib==3.5.2  # For creating static, animated, and interactive visualizations
+seaborn==0.11
