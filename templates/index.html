@@ -1,0 +1,17 @@
+# main page template for user input
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Argus - Sentiment Analyzer</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Argus Sentiment Analyzer</h1>
+        <form action="/analyze" method="post">
+            <input type="text" id="cashtag" name="cashtag" placeholder="Enter Cashtag (e.g., BTC)">
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+</body>
+</html>
