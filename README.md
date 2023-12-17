@@ -29,6 +29,5 @@ None as of this time.
 
 ## Additional Project Files
 - **`.gitignore`**: Specifies intentionally untracked files to ignore.
-- **`config/`**:
   - `config.py`: Contains configuration variables and API keys for each component.
   - `google-credentials.json`: Template for Google Sheets API credentials (actual credentials not tracked in Git).
