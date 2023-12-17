@@ -1,7 +1,10 @@
 import tweepy
 import time
 import os
-import logging  # Make sure to import logging
+import logging
+
+# Setup basic logging
+logging.basicConfig(level=logging.INFO)
 
 class TwitterAPI:
     def __init__(self, api_key, api_secret_key, access_token, access_token_secret):
@@ -24,20 +27,10 @@ class TwitterAPI:
             tweets = self.api.search_tweets(q=query, count=count, tweet_mode='extended')
             return [tweet.full_text for tweet in tweets]
         except Exception as e:
-            logging.error(f"Error fetching tweets for ${cashtag}: {e}")
+            logging.error(f"Error fetching tweets: {e}")
             return []
 
-    def fetch_tweets_with_hashtag(self, hashtag, count=100):
-        self._rate_limit()  # Apply rate limiting
-        query = f"#{hashtag} -filter:retweets"
-        try:
-            tweets = self.api.search_tweets(q=query, count=count, tweet_mode='extended')
-            return [tweet.full_text for tweet in tweets]
-        except Exception as e:
-            logging.error(f"Error fetching tweets for #{hashtag}: {e}")
-            return []
-
-# Example usage:
+# Example usage (if needed for testing or demonstration)
 if __name__ == "__main__":
     api_key = os.getenv("TWITTER_API_KEY")
     api_secret_key = os.getenv("TWITTER_API_SECRET_KEY")
@@ -45,14 +38,6 @@ if __name__ == "__main__":
     access_token_secret = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
     twitter_api = TwitterAPI(api_key, api_secret_key, access_token, access_token_secret)
-
-    cashtag_tweets = twitter_api.fetch_tweets_with_cashtag("BTC", count=10)
-    hashtag_tweets = twitter_api.fetch_tweets_with_hashtag("crypto", count=10)
-
-    print("Cashtag Tweets:")
-    for tweet in cashtag_tweets:
-        print(tweet)
-
-    print("\nHashtag Tweets:")
-    for tweet in hashtag_tweets:
+    tweets = twitter_api.fetch_tweets_with_cashtag("BTC", 10)
+    for tweet in tweets:
         print(tweet)
