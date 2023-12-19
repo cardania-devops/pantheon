@@ -31,4 +31,4 @@ nltk==3.7  # For natural language processing
 
 # For data visualization (if needed)
 matplotlib==3.5.2  # For creating static, animated, and interactive visualizations
-seaborn==0.11
+seaborn==0.11.2  # For data visualization based on matplotlib
