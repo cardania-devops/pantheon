@@ -53,4 +53,3 @@ if __name__ == "__main__":
         raise ValueError("DISCORD_BOT_TOKEN environment variable not set")
     bot = SignalBot(command_prefix="!")
     bot.run(token)
-
