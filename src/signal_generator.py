@@ -1,5 +1,3 @@
-# Generate trading signals
-
 class SignalGenerator:
     def __init__(self):
         # Initialization can be used for setting up thresholds or parameters
