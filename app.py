@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import logging
 import os
+import json
 from src.twitter_api import TwitterAPI
 from src.sentiment_analyzer import SentimentAnalyzer
 from src.discord_bot import SignalBot  # Updated to SignalBot
@@ -30,15 +31,6 @@ except Exception as e:
     logging.error(f"Error in initializing components: {e}")
     raise
 
-@app.route('/')
-def index():
-    # Home page route
-    try:
-        return render_template('index.html')
-    except Exception as e:
-        logging.error(f"Error in home route: {e}")
-        return jsonify(error=str(e)), 500
-
 @app.route('/analyze', methods=['POST'])
 def analyze_cashtag():
     cashtag = request.form.get('cashtag')
@@ -48,14 +40,15 @@ def analyze_cashtag():
     try:
         tweets = twitter_api.fetch_tweets_with_cashtag(cashtag)
         sentiments = [sentiment_analyzer.analyze_sentiment(tweet) for tweet in tweets]
-        # Here, send sentiments to Discord bot or store them for the bot to access
-        # For example, save to a database or a file
+        
+        # Save analysis results to a file for the Discord bot to read
+        with open('results.json', 'w') as file:
+            json.dump({"cashtag": cashtag, "sentiments": sentiments}, file)
 
-        return jsonify({"message": "Analysis complete", "cashtag": cashtag, "sentiments": sentiments})
+        return jsonify({"message": "Analysis complete", "cashtag": cashtag})
     except Exception as e:
         logging.error(f"Error in cashtag analysis: {e}")
         return jsonify({"error": str(e)}), 500
-
 
 # Additional routes here...
 
