@@ -39,6 +39,24 @@ def index():
         logging.error(f"Error in home route: {e}")
         return jsonify(error=str(e)), 500
 
+@app.route('/analyze', methods=['POST'])
+def analyze_cashtag():
+    cashtag = request.form.get('cashtag')
+    if not cashtag:
+        return jsonify({"error": "No cashtag provided"}), 400
+
+    try:
+        tweets = twitter_api.fetch_tweets_with_cashtag(cashtag)
+        sentiments = [sentiment_analyzer.analyze_sentiment(tweet) for tweet in tweets]
+        # Here, send sentiments to Discord bot or store them for the bot to access
+        # For example, save to a database or a file
+
+        return jsonify({"message": "Analysis complete", "cashtag": cashtag, "sentiments": sentiments})
+    except Exception as e:
+        logging.error(f"Error in cashtag analysis: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 # Additional routes here...
 
 if __name__ == '__main__':
