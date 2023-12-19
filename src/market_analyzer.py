@@ -1,34 +1,30 @@
+import subprocess
+import json
 import logging
 import os
-# Import necessary components from the Minswap SDK
-# from minswap_sdk import ...
 
 class MarketAnalyzer:
-    def __init__(self):
-        # Initialize any necessary configurations for Minswap API
-        self.minswap_client = ...  # Minswap client initialization
+    # ... existing class methods ...
 
-    def fetch_current_price(self, token):
+    def fetch_current_price_from_minswap(self):
         try:
-            # Use Minswap SDK to fetch current price
-            price = self.minswap_client.get_current_price(token)
-            return price
-        except Exception as e:
-            logging.error(f"Error fetching current price for {token}: {e}")
+            result = subprocess.run(['node', 'minswap_interface.js', 'getCurrentPrice'],
+                                    capture_output=True, text=True, check=True)
+            return json.loads(result.stdout)
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Error fetching current price from Minswap: {e}")
             return None
 
-    def fetch_historical_data(self, token, start_date, end_date):
+    def fetch_historical_prices_from_minswap(self):
         try:
-            # Use Minswap SDK to fetch historical data
-            historical_data = self.minswap_client.get_historical_data(token, start_date, end_date)
-            return historical_data
-        except Exception as e:
-            logging.error(f"Error fetching historical data for {token}: {e}")
+            result = subprocess.run(['node', 'minswap_interface.js', 'getHistoricalPrices'],
+                                    capture_output=True, text=True, check=True)
+            return json.loads(result.stdout)
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Error fetching historical prices from Minswap: {e}")
             return None
-
-# Additional functions as needed based on Minswap SDK capabilities
 
 # Example usage
 # analyzer = MarketAnalyzer()
-# current_price = analyzer.fetch_current_price("ADA")
-# historical_data = analyzer.fetch_historical_data("ADA", "2021-01-01", "2021-12-31")
+# current_price = analyzer.fetch_current_price_from_minswap()
+# historical_prices = analyzer.fetch_historical_prices_from_minswap()
