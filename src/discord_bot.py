@@ -2,10 +2,10 @@ import discord
 import logging
 from discord.ext import commands
 from os import getenv
-from twitter_api import TwitterAPI
-from sentiment_analyzer import SentimentAnalyzer
-from market_analyzer import MarketAnalyzer
-from signal_generator import SignalGenerator
+from .twitter_api import TwitterAPI
+from .sentiment_analyzer import SentimentAnalyzer
+from .market_analyzer import MarketAnalyzer
+from .signal_generator import SignalGenerator
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO,
