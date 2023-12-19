@@ -10,7 +10,7 @@ class TwitterAPI:
     def __init__(self, api_key, api_secret_key, access_token, access_token_secret):
         auth = tweepy.OAuthHandler(api_key, api_secret_key)
         auth.set_access_token(access_token, access_token_secret)
-        self.api = tweepy.API(auth)
+        self.api = tweepy.API(auth, wait_on_rate_limit=True)
         self.last_call = None
 
     def _rate_limit(self):
@@ -21,7 +21,6 @@ class TwitterAPI:
         self.last_call = time.time()
 
     def fetch_tweets_with_cashtag(self, cashtag, count=100):
-        self._rate_limit()  # Apply rate limiting
         query = f"${cashtag} -filter:retweets"
         try:
             tweets = self.api.search_tweets(q=query, count=count, tweet_mode='extended')
