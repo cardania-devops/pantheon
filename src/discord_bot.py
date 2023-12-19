@@ -18,12 +18,17 @@ class CustomHelpCommand(commands.HelpCommand):
 
 class SignalBot(commands.Bot):
     def __init__(self, command_prefix):
-        intents = discord.Intents.default()
-        super().__init__(command_prefix=command_prefix, intents=intents, help_command=CustomHelpCommand())
-        self.twitter_api = TwitterAPI()
-        self.sentiment_analyzer = SentimentAnalyzer()
-        self.market_analyzer = MarketAnalyzer()
-        self.signal_generator = SignalGenerator()
+        # ... other initialization code ...
+        twitter_api_key = getenv('TWITTER_API_KEY')
+        twitter_api_secret_key = getenv('TWITTER_API_SECRET_KEY')
+        twitter_access_token = getenv('TWITTER_ACCESS_TOKEN')
+        twitter_access_token_secret = getenv('TWITTER_ACCESS_TOKEN_SECRET')
+        self.twitter_api = TwitterAPI(api_key=twitter_api_key,
+                                      api_secret_key=twitter_api_secret_key,
+                                      access_token=twitter_access_token,
+                                      access_token_secret=twitter_access_token_secret)
+        # ... rest of the initialization code ...
+
 
     async def on_ready(self):
         logging.info(f"{self.user} has connected to Discord!")
