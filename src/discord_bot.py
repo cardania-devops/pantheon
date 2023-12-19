@@ -1,3 +1,21 @@
+import discord
+import logging
+from discord.ext import commands
+from os import getenv
+from twitter_api import TwitterAPI
+from sentiment_analyzer import SentimentAnalyzer
+from market_analyzer import MarketAnalyzer
+from signal_generator import SignalGenerator
+
+# Initialize logging
+logging.basicConfig(level=logging.INFO, 
+                    filename='bot.log', 
+                    filemode='a', 
+                    format='%(asctime)s - %(levelname)s - %(name)s: %(message)s')
+
+class CustomHelpCommand(commands.HelpCommand):
+    # ... existing CustomHelpCommand methods ...
+
 class SignalBot(commands.Bot):
     def __init__(self, command_prefix):
         intents = discord.Intents.default()
@@ -28,3 +46,10 @@ class SignalBot(commands.Bot):
         if isinstance(error, commands.CommandError):
             logging.error(f"Command error in {ctx.command}: {error}")
             await ctx.send(f"An error occurred: {error}")
+
+if __name__ == "__main__":
+    token = getenv("DISCORD_BOT_TOKEN")
+    if not token:
+        raise ValueError("DISCORD_BOT_TOKEN environment variable not set")
+    bot = SignalBot(command_prefix="!")
+    bot.run(token)
