@@ -47,9 +47,13 @@ class SignalBot(commands.Bot):
             logging.error(f"Command error in {ctx.command}: {error}")
             await ctx.send(f"An error occurred: {error}")
 
-if __name__ == "__main__":
+def main():
     token = getenv("DISCORD_BOT_TOKEN")
     if not token:
         raise ValueError("DISCORD_BOT_TOKEN environment variable not set")
     bot = SignalBot(command_prefix="!")
     bot.run(token)
+
+if __name__ == "__main__":
+    main()
+
