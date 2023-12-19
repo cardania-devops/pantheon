@@ -2,13 +2,13 @@
 const { BlockFrostAPI } = require("@blockfrost/blockfrost-js");
 const { BlockfrostAdapter } = require("@minswap/sdk");
 
-// Retrieve the Blockfrost API key from environment variables
-const blockFrostAPIKey = process.env.BLOCKFROST_API_KEY;
+// Retrieve the Blockfrost Project ID from environment variables
+const blockFrostProjectId = process.env.BLOCKFROST_PROJECT_ID;
 
 async function getCurrentPrice() {
     const api = new BlockfrostAdapter({
         blockFrost: new BlockFrostAPI({
-            projectId: blockFrostAPIKey,
+            projectId: blockFrostProjectId,
             network: "mainnet",
         }),
     });
@@ -18,7 +18,7 @@ async function getCurrentPrice() {
 async function getHistoricalPrices() {
     const api = new BlockfrostAdapter({
         blockFrost: new BlockFrostAPI({
-            projectId: blockFrostAPIKey,
+            projectId: blockFrostProjectId,
             network: "mainnet",
         }),
     });
