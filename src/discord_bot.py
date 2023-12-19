@@ -1,6 +1,7 @@
 import discord
 import logging
 from discord.ext import commands
+from os import getenv
 from twitter_api import TwitterAPI
 from sentiment_analyzer import SentimentAnalyzer
 from market_analyzer import MarketAnalyzer
@@ -16,9 +17,9 @@ class CustomHelpCommand(commands.HelpCommand):
     # ... existing CustomHelpCommand methods ...
 
 class SignalBot(commands.Bot):
-    def __init__(self, command_prefix, token):
-        super().__init__(command_prefix=command_prefix, intents=discord.Intents.default(), help_command=CustomHelpCommand())
-        self.token = token
+    def __init__(self, command_prefix):
+        intents = discord.Intents.default()
+        super().__init__(command_prefix=command_prefix, intents=intents, help_command=CustomHelpCommand())
         self.twitter_api = TwitterAPI()  # Initialize the TwitterAPI
         self.sentiment_analyzer = SentimentAnalyzer()  # Initialize the SentimentAnalyzer
         self.market_analyzer = MarketAnalyzer()  # Initialize the MarketAnalyzer
@@ -35,7 +36,6 @@ class SignalBot(commands.Bot):
             # Analyze sentiment
             sentiments = [self.sentiment_analyzer.analyze_sentiment(tweet) for tweet in tweets]
             # Process and respond
-            # ... additional processing and response logic ...
             response = "Analysis complete."
         except Exception as e:
             logging.error(f"Error in analyze command: {str(e)}")
@@ -43,11 +43,14 @@ class SignalBot(commands.Bot):
         await ctx.send(response)
 
     async def on_command_error(self, ctx, error):
-        # Improved global error handler
         if isinstance(error, commands.CommandError):
             logging.error(f"Command error in {ctx.command}: {error}")
             await ctx.send(f"An error occurred: {error}")
 
 if __name__ == "__main__":
-    bot = SignalBot(command_prefix="!", token="YOUR_DISCORD_BOT_TOKEN")
-    bot.run(bot.token)
+    token = getenv("DISCORD_BOT_TOKEN")
+    if not token:
+        raise ValueError("DISCORD_BOT_TOKEN environment variable not set")
+    bot = SignalBot(command_prefix="!")
+    bot.run(token)
+
