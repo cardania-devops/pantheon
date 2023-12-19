@@ -1,5 +1,5 @@
 # Collect and preprocess tweets
-from twitter_api import TwitterAPI
+from .twitter_api import TwitterAPI
 import os
 import logging
 from .database_manager import DatabaseManager
